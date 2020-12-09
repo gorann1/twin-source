@@ -1,70 +1,176 @@
-# Getting Started with Create React App
+<a href="https://codesandbox.io/embed/github/ben-rogerson/twin.examples/tree/master/react-emotion?file=/src/App.js"><img src="https://i.imgur.com/YyG9s4u.png" alt="twin, react, emotion" width="550"></a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Getting started
 
-## Available Scripts
+### 1. Install the dependencies
 
-In the project directory, you can run:
+```bash
+# React and Babel
+npm install --save react react-dom @babel/core @emotion/babel-plugin-jsx-pragmatic babel-plugin-macros
+# Twin and Emotion
+npm install --save twin.macro tailwindcss @emotion/react @emotion/styled
+```
 
-### `yarn start`
+<details>
+  <summary>Yarn instructions</summary>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+# React and Babel
+yarn add react react-dom @babel/core @emotion/babel-plugin-jsx-pragmatic babel-plugin-macros
+# Twin and Emotion
+yarn add twin.macro @emotion/react @emotion/styled
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+</details>
 
-### `yarn test`
+### 2. Add the global styles
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Projects using Twin also use the Tailwind [preflight base styles](https://unpkg.com/tailwindcss/dist/base.css) to smooth over cross-browser inconsistencies.
 
-### `yarn build`
+Twin adds the preflight base styles with the `GlobalStyles` import which you can add in `src/App.js`:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```js
+// src/App.js
+import { GlobalStyles } from 'twin.macro'
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+const App = () => (
+  <div>
+    <GlobalStyles />
+    {/* ... */}
+  </div>
+)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export default App
+```
 
-### `yarn eject`
+`GlobalStyles` also includes some [@keyframes](https://github.com/ben-rogerson/twin.macro/blob/master/src/config/globalStyles.js) so the `animate-xxx` classes have animations and some global css that makes the [ring classes](https://tailwindcss.com/docs/ring-width) work.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 3. Add the twin config
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Twin’s config can get added in a couple of different places.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**a) In a new file named `babel-plugin-macros.config.js` placed in your project root:**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```js
+// babel-plugin-macros.config.js
+module.exports = {
+  twin: {
+    preset: 'emotion'
+  }
+}
+```
 
-## Learn More
+**b) Or in your `package.json`:**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+// package.json
+"babelMacros": {
+  "twin": {
+    "preset": "emotion",
+  }
+},
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 4. Enable babel macros and the jsx pragma
 
-### Code Splitting
+To use the `tw` and `css` props, emotion must first extend jsx with a [jsx pragma](https://emotion.sh/docs/css-prop#jsx-pragma).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The newest version looks like this and sits at the top of your files:
 
-### Analyzing the Bundle Size
+```js
+/** @jsxImportSource @emotion/react */
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**a) Auto inject the pragma:**
 
-### Making a Progressive Web App
+You can avoid adding the pragma yourself with the following babel config:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```js
+// .babelrc
+{
+  "plugins": [
+    "babel-plugin-macros",
+    [
+      "@emotion/babel-plugin-jsx-pragmatic",
+      {
+        "export": "jsx",
+        "import": "__cssprop",
+        "module": "@emotion/react"
+      }
+    ],
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "__cssprop",
+        "pragmaFrag": "React.Fragment"
+      }
+    ]
+  ]
+}
+```
 
-### Advanced Configuration
+**b) Or manually specify the jsx pragma in each file:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+First add these babel plugins:
 
-### Deployment
+```js
+// .babelrc
+{
+  "plugins": [
+    "babel-plugin-macros",
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "__cssprop",
+        "pragmaFrag": "React.Fragment"
+      }
+    ]
+  ]
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Then when styling with the tw or css prop, add the pragma at the top of your file. This also replaces the react import:
 
-### `yarn build` fails to minify
+```js
+/** @jsxImportSource @emotion/react */
+import tw from 'twin.macro'
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+const Input = () => <input tw="bg-black" />
+// or
+const Input = () => <input css={tw`bg-black`} />
+```
+
+> Note: After build, if you’re seeing "process is not defined" then npm install and add `"babel-plugin-transform-inline-environment-variables"` to .babelrc
+
+### 5. Add the types for `css` and `styled` (TypeScript only)
+
+Twin comes with types for every import except the `css` and `styled` imports.
+
+[Add the remaining types →](https://github.com/ben-rogerson/twin.macro/blob/master/docs/typescript.md)
+
+## Twin config options
+
+| Name                  | Type      | Default                | Description                                                                                                               |
+| --------------------- | --------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| config                | `string`  | `"tailwind.config.js"` | The path to your Tailwind config                                                                                          |
+| preset                | `string`  | `"emotion"`            | The css-in-js library behind the scenes - also supports 'styled-components' and 'goober'.                                 |
+| hasSuggestions        | `boolean` | `true`                 | Display suggestions when a class isn’t found                                                                              |
+| dataTwProp            | `boolean` | `true`                 | Add a prop to your elements in development so you can see the original tailwind classes, eg: `<div data-tw="bg-black" />` |
+| debugPlugins          | `boolean` | `false`                | Display generated class information in your terminal from your plugins                                                    |
+| debug                 | `boolean` | `false`                | Display information in your terminal about the Tailwind class conversions                                                 |
+| disableColorVariables | `boolean` | `false`                | Disable css variables in colors (not gradients) to help support IE11/react native                                         |
+
+## Next steps
+
+- See how to [customize your classes →](https://github.com/ben-rogerson/twin.macro/blob/master/docs/customizing-config.md)
+- Learn how to use the emotion library<br/>
+  The [css prop](https://emotion.sh/docs/css-prop) / [css import](https://emotion.sh/docs/css-prop#string-styles) / [styled import](https://emotion.sh/docs/styled)
+
+## More examples with Emotion
+
+- React (current)
+- [Create React App](https://github.com/ben-rogerson/twin.examples/blob/master/cra-emotion/README.md)
+- [Gatsby](https://github.com/ben-rogerson/twin.examples/blob/master/gatsby-emotion/README.md)
+- [Next.js](https://github.com/ben-rogerson/twin.examples/blob/master/next-emotion/README.md)
+- [Snowpack](https://github.com/ben-rogerson/twin.examples/blob/master/snowpack-react-emotion/README.md)
+- [Vue (experimental)](https://github.com/ben-rogerson/twin.examples/blob/master/vue-emotion/README.md)

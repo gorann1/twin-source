@@ -17,7 +17,7 @@ function App() {
       }
     `}
   >
-    Hover to change color.
+    Hover to change color by color.
   </div>
   );
 }
