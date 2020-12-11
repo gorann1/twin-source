@@ -2,13 +2,13 @@ const { ApolloServer } = require('apollo-server');
 
 const typeDefs = `
   type Query {
-    info:String!
+    accounts:String!
   }
 `
 
 const resolvers = {
   Query: {
-    info: () => ` This is the API of Human Resources APP `
+    accounts: () => ` This is the API of Human Resources APP `
   }
 }
 
