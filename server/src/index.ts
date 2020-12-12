@@ -1,4 +1,4 @@
-import { Center } from './entities/Center';
+import { Department } from './entities/Department';
 import { MikroORM } from '@mikro-orm/core'
 import { __prod__ } from './constants';
 import microConfig from './mikro-orm.config'
@@ -8,8 +8,8 @@ const main = async () => {
   await orm.getMigrator().up();
 //  const center = orm.em.create(Center, { name: 'testni centar' });
 //  await orm.em.persistAndFlush(center)
-  const centers = await orm.em.find(Center, {});
-  console.log(centers);
+  const departments = await orm.em.find(Department, {});
+  console.log(departments);
 };
 // console.log(orm.em); // access EntityManager via `em` property
 
