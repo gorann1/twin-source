@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
     "target": "es6",
     "module": "commonjs",
     "lib": [
@@ -10,7 +11,6 @@
     ],
     "sourceMap": true,
     "outDir": "./dist",
-    "moduleResolution": "node",
     "removeComments": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
