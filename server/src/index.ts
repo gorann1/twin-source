@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { Department } from './entities/Department';
-=======
-import 'reflect-metadata';
->>>>>>> dev
+import 'reflect-metadata'
 import { MikroORM } from '@mikro-orm/core'
 import { __prod__ } from './constants'
 import mikroConfig from './mikro-orm.config'
@@ -16,26 +12,13 @@ import { UserResolver } from './resolvers/user';
 const main = async () => {
   const orm = await MikroORM.init(mikroConfig);
   await orm.getMigrator().up();
-<<<<<<< HEAD
-//  const center = orm.em.create(Center, { name: 'testni centar' });
-//  await orm.em.persistAndFlush(center)
-  const app = express()
-  app.listen(4000, () => {
-    app.get('/', (_, res) => {
-      res.send('Zdravo');
-=======
   const app = express();
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers:[HelloResolver, BoardResolver, UserResolver],
       validate: false
-<<<<<<< HEAD
->>>>>>> dev
-    })
-=======
     }),
     context: () =>({ em: orm.em })
->>>>>>> dev
   });
 
   apolloServer.applyMiddleware({app})
