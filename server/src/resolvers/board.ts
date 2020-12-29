@@ -38,4 +38,15 @@ export class BoardResolver {
     }
     return board;
   }
+ 
+  @Mutation(() => Boolean)
+  async deleteBoard(
+    @Arg('first_name') first_name: string,    
+    @Ctx() {em}: MyContext   
+  ): Promise<Boolean> {
+    await em.nativeDelete(Board, {first_name})
+    return true;
+  }
+
+  
 }
