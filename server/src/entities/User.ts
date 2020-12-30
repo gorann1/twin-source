@@ -5,6 +5,7 @@ import { Field, Int, ObjectType } from "type-graphql";
 @Entity({tableName:'koncar.users'})
 
 export class User {
+  [x: string]: any;
 @Field(() => Int)
   @PrimaryKey()
   user_id!: number;

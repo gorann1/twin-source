@@ -1,6 +1,14 @@
 import { User } from '../entities/User'
 import { MyContext } from 'src/types'
-import { Resolver, Mutation, InputType, Field, Arg, Ctx, ObjectType  } from 'type-graphql'
+import { 
+  Resolver, 
+  Mutation, 
+  InputType, 
+  Field, 
+  Arg, 
+  Ctx, 
+  ObjectType  
+} from 'type-graphql'
 import argon2 from 'argon2'
 
 @InputType()
@@ -108,10 +116,12 @@ export class UserResolver {
         {
         field: 'password',
         message:'netočna lozinka'
-      }
+      },
      ],
-    } 
+    }; 
   }
+    //req.session.userId = user.id;
+
   return {
    user,
   };

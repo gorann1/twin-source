@@ -1,5 +1,11 @@
 import { Board } from './../entities/Board';
-import { Resolver, Query, Ctx, Mutation, Arg  } from 'type-graphql'
+import { 
+  Resolver, 
+  Query, 
+  Ctx, 
+  Mutation, 
+  Arg  
+} from 'type-graphql'
 import { MyContext } from 'src/types';
 
 @Resolver()
