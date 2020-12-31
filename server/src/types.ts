@@ -5,7 +5,12 @@ import { Request, Response} from 'express';
 
 export type MyContext = {
   em: EntityManager<any> & EntityManager<IDatabaseDriver<Connection>>
+<<<<<<< HEAD
   req: Request;
   res: Response;
+=======
+  res: Response;
+  req: Request & { session: Express.Session };
+>>>>>>> dev
 
 };
