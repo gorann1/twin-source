@@ -25,8 +25,4 @@ export class Board {
   @Property({ type: 'date', onUpdate: () => new Date() })
   updatedAt = new Date()
   
-  @Field(() => String)
-  @Property({ type: 'date', onUpdate: () => new Date() })
-  updatedAt = new Date();
-  
 }
