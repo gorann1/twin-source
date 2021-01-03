@@ -120,12 +120,9 @@ export class UserResolver {
      ],
     }; 
   }
-<<<<<<< HEAD
-    //req.session.userId = user.id;
-=======
+   //req.session.userId = user.id;
 
   req.session.userId = user.user_id;
->>>>>>> dev
 
   return {
    user,

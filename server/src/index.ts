@@ -8,51 +8,15 @@ import {buildSchema} from 'type-graphql'
 import { HelloResolver } from './resolvers/hello';
 import { BoardResolver } from './resolvers/board';
 import { UserResolver } from './resolvers/user';
-<<<<<<< HEAD
-//import redis from 'redis'
-//import session from 'express-session'
-
-//import connectRedis from 'connect-redis'
-import { MyContext } from './types';
-// Use REDIS but later I will change to PG & postgresql
-=======
 import redis from 'redis';
 import session from 'express-session';
 import connectRedis from 'connect-redis'
 import { MyContext } from './types';
 
->>>>>>> dev
-
 const main = async () => {
   const orm = await MikroORM.init(mikroConfig);
   await orm.getMigrator().up();
   const app = express();
-<<<<<<< HEAD
-
-/*   let RedisStore = connectRedis(session)
-  let redisClient = redis.createClient() */
-
-
-/*   app.use(
-    session({
-      name: 'qid',
-      store: new RedisStore({
-         client: redisClient,
-         disableTouch: true, 
-        }),
-        cookie: {
-         maxAge:1000 * 60 * 604 * 24 * 365 * 10, //10 years
-         httpOnly: true,
-         sameSite: 'lax', // csrf
-         secure: __prod__ //cookie only working in SSL mode
-
-        },
-        saveUninitialized: false,
-      secret: 'keyboard cat',
-      resave: false,
-    })
-  ) */
-=======
   const RedisStore = connectRedis(session)
   const redisClient = redis.createClient()
 
@@ -83,18 +47,12 @@ redisClient.on('error', function(err) {
       saveUninitialized: false
     })
   )
->>>>>>> dev
-
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers:[HelloResolver, BoardResolver, UserResolver],
       validate: false
     }),
-<<<<<<< HEAD
-    context: ({req, res}): MyContext => ({ em: orm.em, req, res })
-=======
     context: ({req, res}): MyContext =>({ em: orm.em, req, res}),
->>>>>>> dev
   });
 
   apolloServer.applyMiddleware({app})
