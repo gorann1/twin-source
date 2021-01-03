@@ -24,5 +24,9 @@ export class Board {
   @Field(() => String)
   @Property({ type: 'date', onUpdate: () => new Date() })
   updatedAt = new Date()
+<<<<<<< HEAD
    
+=======
+  
+>>>>>>> dev
 }

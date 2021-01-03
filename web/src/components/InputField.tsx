@@ -6,6 +6,7 @@ import React, { InputHTMLAttributes } from 'react';
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
+  placeholder: string;
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
