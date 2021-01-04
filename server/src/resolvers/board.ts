@@ -1,4 +1,5 @@
 import { Board } from './../entities/Board';
+<<<<<<< HEAD
 import { 
   Resolver, 
   Query, 
@@ -7,6 +8,10 @@ import {
   Arg  
 } from 'type-graphql'
 import { MyContext } from 'src/types';
+=======
+import { Resolver, Query, Ctx, Mutation, Arg  } from 'type-graphql'
+import { MyContext } from '../types';
+>>>>>>> dev
 
 @Resolver()
 
