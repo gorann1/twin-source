@@ -1,12 +1,10 @@
 import { FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import { useField } from 'formik';
-import { type } from 'os';
 import React, { InputHTMLAttributes } from 'react';
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
-  placeholder: string;
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -23,7 +21,7 @@ export const InputField: React.FC<InputFieldProps> = ({
        {...props} 
        id={field.name} 
        placeholder={props.placeholder} />
-       {error? <FormErrorMessage>{error}</FormErrorMessage> : null}
+       {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
      </FormControl>
   );
 }

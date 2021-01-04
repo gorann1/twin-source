@@ -23,5 +23,6 @@ export class User {
 
   @Property({ type: 'text'})
   password!: string;
+  static user_id: number | undefined;
   
 }
